@@ -25,7 +25,7 @@ SECRET_KEY = 'a&=(9hji^u)3=^tc3ui6(uflxvsl3fs2jxrbs@wm@=l*veo88*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.localhost', '', '127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'el-imdb.herokuapp.com']
 
 
 # Application definition
