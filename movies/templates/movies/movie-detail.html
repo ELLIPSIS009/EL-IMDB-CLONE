@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+<!-- Title -->
+{% block htitle %}{{ object.title }} ({{ object.release_year }}){% endblock %}
+{% block title %}{{ object.title }} <small>({{ object.release_year }})</small>{% endblock %}   
+
+{% block content %}
+<!-- Post Content Column -->
+<div style="width: 100%;"> 
+
+    <p class="small">
+        <span class="text-muted">{{ object.duration }} min </span> | 
+        <span class="text-muted">IMDB {{ object.imdb_rating }} </span> | 
+        <span class="text-muted"><a href="#comments">{{ object.comments.count }} comments</a></span> 
+        {% for genre in object.genres.all %}
+            | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+        {% endfor %}
+    </p>    
+
+    <div class="card mb-4" style="background-color: #303030;">
+        <div class="row no-gutters">    
+            <div class="col-md-3">
+                <img class="card-img-left" width="100%" src="{{ movie.source_image }}" alt="" style="margin-right: 2.5px;">
+            </div>
+            <div class="col-md-9">
+                <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{ object.youtube_video }}" 
+                    frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>                    
+            </div>
+        </div>
+    </div>
+
+    <hr style="background-color: white;">
+
+    <!-- Post Content -->
+    <p class="lead">{{ object.summary_long }}</p>
+
+    <div class="card my-4" style="background-color: #303030;">
+        <div class="card-body" style="background-color: #424242;">
+            <p class="small"><strong>Directors:</strong> 
+                {% for director in object.directors %}
+                    <a href="{% url 'celebs:celeb_detail' director.crew.id director.crew.slug %}">{{ director.crew.full_name }}</a>, 
+                {% endfor %}            
+            </p>
+            <p class="small"><strong>Writers:</strong>
+                {% for writer in object.writers %}
+                    <a href="{% url 'celebs:celeb_detail' writer.crew.id writer.crew.slug %}">{{ writer.crew.full_name }}</a>, 
+                {% endfor %}
+            </p>
+            <p class="small"><strong>Stars:</strong> 
+                {% for cast in object.casts %}
+                    <a href="{% url 'celebs:celeb_detail' cast.crew.id cast.crew.slug %}">{{ cast.crew.full_name }}</a>,  
+                {% endfor %} &nbsp;&nbsp;» <a href="#cast">Full Cast & Crew List</a>           
+            </p>             
+        </div>
+    </div>    
+
+    {{ object.content|linebreaksbr }}
+
+    <div id="cast" class="col-lg-12 small mt-5" style="background-color: #424242; padding: 10px;">
+        <h4>Cast & Crew</h4>
+        <div class="row">
+            {% for mc in object.casts %}    
+            <div class="col-lg-3">
+                <a href="{% url 'celebs:celeb_detail' mc.crew.id mc.crew.slug %}">{{ mc.crew.full_name }}</a>
+            </div>
+            <div class="col-lg-1">...</div>
+            <div class="col-lg-8"><span class="font-italic text-muted" style="margin-right: 10px;">as</span> {{ mc.screen_name }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="card my-4" style="background-color: #303030; padding: 0;">
+        <div class="card-body" style="background-color: #424242; padding: 10px;">
+            <p class="small">Content source: 
+                {% if object.source_content %}
+                    <a href="{{ object.source_content }}" target="_blank">{{ object.source_content }}</a>
+                {% else %}
+                    ...
+                {% endif %}
+            </p>
+            <p class="small">Images credit: 
+                {% if object.source_image %}
+                    {{ object.source_image }}
+                {% else %}
+                    ...
+                {% endif %}
+        </div>
+    </div>
+
+    <!-- Comments Form -->
+    <p id="comments"></p>
+    {% if user.is_authenticated %}
+    {% include 'movies/comment-form.html' %}
+    {% else %}
+    <div class="card my-4" style="background-color: #303030;">
+        <h5 class="card-header">Leave a Comment:</h5>
+        <div class="card-body" style="background-color: #424242;">
+            You need to be logged in to comment.
+        </div>
+    </div>
+    {% endif %}
+    <hr style="background-color: white; height: 2px; margin-top: 25px; margin-bottom: 25px;">
+    {% for comment in object.comments.all %}
+    <!-- Single Comment -->
+    <div class="media mb-4">
+        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+        <div class="media-body">
+        <h5 class="mt-0">{{ comment.user }}</h5>
+        {{ comment.text|linebreaks }}
+        </div>
+    </div>
+    {% empty %}
+    <div class="media mb-4">
+        <div class="media-body">No comments yet! You may add one.</div>
+    </div>    
+    {% endfor %}
+</div>
+{% endblock %}

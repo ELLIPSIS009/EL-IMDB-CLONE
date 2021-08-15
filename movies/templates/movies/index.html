@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block htitle %}{{ title }} {{ title_suffix }}{% endblock %}
+{% block title %}{{ title }} <small>{{ title_suffix }}</small>{% endblock %}
+
+{% block content %}
+<div class="card card-signin" style="background-color: #303030;">
+    <div class="card-body" style="background-color: #303030; padding: 25px; border-radius: 20px;">    
+        {% include 'movies/movie-list.html' %}
+    </div>
+</div>
+{% endblock %}

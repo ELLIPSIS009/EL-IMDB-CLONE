@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block htitle %}Celebrities{% endblock %}
+{% block title %}Celebrities{% endblock %}
+
+{% block content %}
+<div class="card card-signin" style="background-color: #303030;">
+    <div class="card-body" style="background-color: #303030; padding: 25px; border-radius: 20px;">    
+        {% include 'celebs/celeb-list.html' %}
+    </div>
+</div>
+{% endblock %}

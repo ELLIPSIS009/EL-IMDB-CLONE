@@ -1,0 +1,58 @@
+{% for movie in object_list %}
+<div class="card mb-4" style="background-color: #424242;">
+    <div class="row no-gutters">    
+        <div class="col-md-4">
+            <div class="card-img-top">
+                <a href="{% url 'movies:movie_detail' movie.id movie.slug %}"><img class="card-img-left" width="100%" src="{{movie.source_image}}" alt=""></a>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="{% url 'movies:movie_detail' movie.id movie.slug %}">{{ movie.title }}</a>
+                    <small>({{ movie.release_year }})</small>
+                </h4>
+                <p class="small">
+                    <span class="text-muted">{{ movie.duration }} min</span>  
+                    {% for genre in movie.genres.all %}
+                        | <a href="{% url 'movies:movies_by_genre' genre.slug %}">{{ genre.name }}</a>
+                    {% endfor %}
+                </p>
+                <p class="card-text small">{{ movie.summary_short }}</p>
+                <p class="small"><strong>Directors:</strong> 
+                    {% for director in movie.directors %}
+                        <a href="{% url 'celebs:celeb_detail' director.crew.id director.crew.slug %}">{{ director.crew.full_name }}</a>, 
+                    {% endfor %}            
+                </p>
+                <p class="small"><strong>Writers:</strong> 
+                    {% for writer in movie.writers %}
+                        <a href="{% url 'celebs:celeb_detail' writer.crew.id writer.crew.slug %}">{{ writer.crew.full_name }}</a>, 
+                    {% endfor %}            
+                </p>                
+                <p class="small"><strong>Stars:</strong> 
+                    {% for cast in movie.casts %}
+                        <a href="{% url 'celebs:celeb_detail' cast.crew.id cast.crew.slug %}">{{ cast.crew.full_name }}</a>,  
+                    {% endfor %}            
+                </p>            
+                <div class=row>
+                    <div class=col-md-4>
+                        <a href="{{ movie.trailer }}" target="_blank" class="btn btn-outline-primary btn-sm {% if not movie.trailer %} disabled {% endif %}" style="margin: 2.5px;">Watch Trailer</a>
+                    </div>
+                    <div class=col-md-4>
+                        <a href="{{ movie.imdb_link }}" title="IMDB" class="btn btn-outline-success btn-sm" style="margin: 2.5px;">
+                            IMDB {{ movie.imdb_rating }}</a>
+                    </div>                        
+                </div>
+            </div>             
+        </div>
+        <div class="col-md-12 text-right">
+            <div class="card-footer text-muted" style="background-color: #363636;">
+                    <small class="mr-3"><i>from our users: </i></small>
+                    <small class="mr-3">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
+                    <small><a href="{% url 'movies:movie_detail' movie.pk movie.slug %}#comments">
+                        {{ movie.comments.count }} comments</a></small> 
+            </div> 
+        </div>
+    </div>  
+</div>
+{% endfor %}

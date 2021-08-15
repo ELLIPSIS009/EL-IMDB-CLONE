@@ -1,0 +1,70 @@
+<!-- Navigation -->
+
+<style>
+  .dropdown .dropdown-menu {
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+
+    max-height: 0;
+    display: block;
+    opacity: 0;
+  }
+
+  .dropdown.show .dropdown-menu {
+    max-height: 200px;
+    opacity: 1;
+  }
+</style>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #121212; color: white; border-bottom: 2px white solid;">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'index' %}"><img src="https://m.media-amazon.com/images/G/01/IMDb/BG_rectangle._CB1509060989_SY230_SX307_AL_.png" alt="" style = "max-height: 35px;"></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarscol" aria-controls="navbarscol" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarscol">
+      <ul class="navbar-nav" style="margin-right: 25px;">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Movies</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown07">
+            <a class="dropdown-item" href="{% url 'movies:home' %}">Latest Movies</a>
+            <a class="dropdown-item" href="{% url 'movies:top_movies' %}">Top Movies</a>
+            <a class="dropdown-item" href="{% url 'movies:genre_home' %}">By Genre</a>
+          </div>
+        </li>                   
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'celebs:home' %}">Celebs</a>
+        </li>          
+      </ul>
+      <form class="form-inline" action="{% url 'search' %}" style="width: 100%; margin-right: 25px;">
+        <div class="form-group" style="width: 100%;">
+          <input name="q" class="form-control" type="text" placeholder="Search.." style="width: 100%;" aria-label="Search">
+        </div>
+      </form>
+      <ul class="navbar-nav mr-sm-5">
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 20px; color: white;"><i class="fas fa-user" style="color: white; font-size: 25px; padding-right: 10px;"></i>{{ user.username }}</a>
+          <div class="dropdown-menu" aria-labelledby="dropdown07">
+            <a class="dropdown-item" href="{% url 'users:profile' %}">View Profile</a>
+            <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+          </div>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'users:login' %}" style="font-size: 20px; color: white;">Login</a>
+        </li>    
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'users:register' %}" style="font-size: 20px; color: white;">Register</a>
+        </li>  
+        {% endif %}
+      </ul>        
+    </div>
+  </div>
+</nav>
