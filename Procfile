@@ -1,1 +1,1 @@
-web: gunicorn EL-IMDB-CLONE.wsgi --log-file -
+web: gunicorn EL-IMDB-CLONE.wsgi
