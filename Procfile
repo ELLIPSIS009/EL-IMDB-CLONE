@@ -1,1 +1,1 @@
-web: gunicorn EL-IMDB-CLONE.wsgi
+web: gunicorn project.wsgi
