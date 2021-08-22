@@ -2,6 +2,10 @@
 
 IMDb Clone is a web app implemented using Python, Django, JavaScript and BootsTrap, that works like a mini IMDb.
 
+# Heroku
+
+The project is deployed on Heroku and can be viewed by clicking [HERE](https://el-imdb.herokuapp.com/)
+
 # Video Link for the Project
 
 The project walkthrough can be viewed [HERE](https://youtu.be/y2Suw8_02KI)
